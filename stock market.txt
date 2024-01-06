@@ -1,0 +1,45 @@
+-- Table structure for 'orders'
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    trader_id INT,
+    stock_symbol VARCHAR(10),
+    order_type ENUM('BUY', 'SELL'),
+    quantity INT CHECK (quantity > 0),
+    customer_id INT,
+    price DECIMAL(10, 2),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Table structure for 'customers'
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE,
+    password VARCHAR(100), -- Encrypted/hashed password
+    full_name VARCHAR(100),
+    customer_email VARCHAR(100) UNIQUE,
+    account_balance DECIMAL(20, 2) DEFAULT 0.0,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table structure for 'transaction_history'
+CREATE TABLE transaction_history (
+    transaction_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    order_id INT,
+    transaction_type ENUM('DEBIT', 'CREDIT'),
+    amount DECIMAL(20, 2),
+    transaction_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table structure for 'portfolio'
+CREATE TABLE portfolio (
+    portfolio_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    stock_symbol VARCHAR(10),
+    quantity INT,
+    CONSTRAINT fk_customer_portfolio FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+
+
