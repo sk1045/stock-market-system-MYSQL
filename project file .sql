@@ -174,4 +174,26 @@ It checks if the order type is a buy order and updates the portfolio accordingly
 If the customer already holds the stock, it updates the quantity; otherwise, it inserts a new record.
 
 
+-- Normalized Tables
+CREATE TABLE Products (
+    Product_ID INT PRIMARY KEY,
+    Product_Name VARCHAR(50),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2)
+);
+
+CREATE TABLE Suppliers (
+    Supplier_ID INT PRIMARY KEY,
+    Supplier_Name VARCHAR(50),
+    Supplier_Address VARCHAR(100)
+);
+
+CREATE TABLE Inventory (
+    Product_ID INT,
+    Supplier_ID INT,
+    Quantity_in_Stock INT,
+    PRIMARY KEY (Product_ID, Supplier_ID),
+    FOREIGN KEY (Product_ID) REFERENCES Products(Product_ID),
+    FOREIGN KEY (Supplier_ID) REFERENCES Suppliers(Supplier_ID)
+);
 
