@@ -197,3 +197,38 @@ CREATE TABLE Inventory (
     FOREIGN KEY (Supplier_ID) REFERENCES Suppliers(Supplier_ID)
 );
 
+-- Denormalized Table
+CREATE TABLE Library (
+    Book_ID INT PRIMARY KEY,
+    Title VARCHAR(100),
+    Authors VARCHAR(200),  -- Comma-separated list of authors
+    Genre VARCHAR(50)
+);
+--Atomicity
+BEGIN TRANSACTION;
+
+-- Execute the trade
+UPDATE portfolio SET quantity = quantity - 50 WHERE customer_id = 1 AND stock_symbol = 'AAPL';
+INSERT INTO transaction_history (order_id, transaction_type, amount) VALUES (123, 'SELL', 50);
+
+-- If an error occurs, roll back the entire transaction
+ROLLBACK;
+
+-- If successful, commit the transaction
+COMMIT;
+
+--Consistency
+-- Enforce consistency through proper validation and constraints
+CHECK (portfolio.quantity >= 0);
+CHECK (transaction_history.amount > 0);
+
+--Isolation
+-- Use proper isolation levels (e.g., READ COMMITTED) to control the visibility of uncommitted data
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+--Durability
+-- The database management system (DBMS) ensures durability by persisting committed transactions to disk
+-- No explicit SQL statement is needed for durability; it is an inherent property of the DBMS
+
+
+
