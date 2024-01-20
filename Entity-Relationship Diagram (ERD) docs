@@ -1,0 +1,18 @@
+Entities:
+Customers:
+
+Attributes: customer_id (Primary Key), customer_name, customer_email, account_balance.
+Orders:
+
+Attributes: order_id (Primary Key), customer_id (Foreign Key), stock_symbol, order_type, quantity, price, timestamp.
+Stocks:
+
+Attributes: stock_symbol (Primary Key), stock_name, current_price, volume.
+Transaction History:
+
+Attributes: transaction_id (Primary Key), order_id (Foreign Key), transaction_type, amount, transaction_timestamp.
+Relationships:
+A customer can place multiple orders, but each order is placed by exactly one customer. (One-to-Many Relationship)
+Each order is associated with one or more transactions in the transaction history. (One-to-Many Relationship)
+Each order is related to a specific stock. (Many-to-One Relationship)
+Stocks can have multiple orders associated with them. (One-to-Many Relationship)
